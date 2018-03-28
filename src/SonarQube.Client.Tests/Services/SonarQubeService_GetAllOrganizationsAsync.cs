@@ -74,6 +74,47 @@ namespace SonarQube.Client.Tests.Services
         }
 
         [TestMethod]
+        public async Task GetOrganizations_V7_00_ExampleFromSonarQube()
+        {
+            await ConnectToSonarQube("7.0.0.0");
+
+            // The only differnce between this and the previous version is the "member=true" query string parameter
+            // which when specified, should get only the organizations that the current user is member of
+            SetupRequest("api/organizations/search?member=true&p=1&ps=500",
+                @"
+{
+  ""paging"": {
+    ""pageIndex"": 1,
+    ""pageSize"": 25,
+    ""total"": 2
+  },
+  ""organizations"": [
+    {
+      ""key"": ""foo-company"",
+      ""name"": ""Foo Company"",
+      ""guarded"": true
+    },
+    {
+      ""key"": ""bar-company"",
+      ""name"": ""Bar Company"",
+      ""description"": ""The Bar company produces quality software too."",
+      ""url"": ""https://www.bar.com"",
+      ""avatar"": ""https://www.bar.com/logo.png"",
+      ""guarded"": false
+    }
+  ]
+}");
+
+            var result = await service.GetAllOrganizationsAsync(CancellationToken.None);
+
+            messageHandler.VerifyAll();
+
+            result.Should().HaveCount(2);
+            result.Select(x => x.Key).Should().BeEquivalentTo(new[] { "foo-company", "bar-company" });
+            result.Select(x => x.Name).Should().BeEquivalentTo(new[] { "Foo Company", "Bar Company" });
+        }
+
+        [TestMethod]
         public async Task GetOrganizations_Paging()
         {
             await ConnectToSonarQube("6.2.0.0");

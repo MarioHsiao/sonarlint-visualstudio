@@ -115,7 +115,12 @@ namespace SonarQube.Client.Services
         }
 
         public async Task<IList<SonarQubeOrganization>> GetAllOrganizationsAsync(CancellationToken token) =>
-            await InvokeRequestAsync<IGetOrganizationsRequest, SonarQubeOrganization[]>(token);
+            await InvokeRequestAsync<IGetOrganizationsRequest, SonarQubeOrganization[]>(
+                request =>
+                {
+                    request.OnlyUserOrganizations = true;
+                },
+                token);
 
         public async Task<IList<SonarQubePlugin>> GetAllPluginsAsync(CancellationToken token) =>
             await InvokeRequestAsync<IGetPluginsRequest, SonarQubePlugin[]>(token);
