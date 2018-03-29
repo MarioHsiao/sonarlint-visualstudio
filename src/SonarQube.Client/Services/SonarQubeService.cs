@@ -159,6 +159,7 @@ namespace SonarQube.Client.Services
                     request.Page = 1;
                     request.PageSize = 1;
                     request.QualityProfileKey = qualityProfile.Key;
+                    request.QualityProfileName = qualityProfile.Name;
                 },
                 token);
 

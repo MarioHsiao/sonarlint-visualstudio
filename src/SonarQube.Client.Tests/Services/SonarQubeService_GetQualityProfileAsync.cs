@@ -306,7 +306,7 @@ namespace SonarQube.Client.Tests.Services
   }
 }");
 
-            SetupRequest("api/qualityprofiles/changelog?profileKey=AU-TpxcA-iU5OvuD2FL3&p=1&ps=1", @"{
+            SetupRequest("api/qualityprofiles/changelog?qualityProfile=Sonar+way&p=1&ps=1", @"{
   ""total"": 3,
   ""ps"": 10,
   ""p"": 1,
@@ -372,7 +372,7 @@ namespace SonarQube.Client.Tests.Services
   }
 }");
 
-            SetupRequest("api/qualityprofiles/changelog?profileKey=AU-TpxcA-iU5OvuD2FL3&p=1&ps=1", @"{
+            SetupRequest("api/qualityprofiles/changelog?qualityProfile=Sonar+way&p=1&ps=1", @"{
   ""total"": 3,
   ""ps"": 10,
   ""p"": 1,
